@@ -1,13 +1,27 @@
+open Types;
+
 [@react.component]
-let make = () => {
+let make =
+    (
+      ~items: list(item),
+      ~onItemToggleCompleted,
+      ~onItemRename,
+      ~onItemRemove,
+    ) => {
   <ul className="todo-list">
-    <li>
-      <div className="view">
-        <input className="toggle" type_="checkbox" />
-        <label> {React.string("one")} </label>
-        <button className="destroy" />
-      </div>
-      <input className="edit" value="one" />
-    </li>
+    {items
+     ->Belt.List.map(({id, title, isCompleted}) =>
+         <TodoItem
+           id
+           title
+           isCompleted
+           onToggleCompleted=onItemToggleCompleted
+           onRename=onItemRename
+           onRemove=onItemRemove
+           key={Js.Float.toString(id)}
+         />
+       )
+     ->Belt.List.toArray
+     ->ReasonReact.array}
   </ul>;
 };

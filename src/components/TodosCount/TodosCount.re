@@ -1,6 +1,13 @@
 [@react.component]
-let make = () => {
+let make = (~value: int) => {
   <span className="todo-count">
-    <strong> {React.string("2 items left")} </strong>
+    <strong>
+      {React.string(
+         string_of_int(value)
+         ++ " "
+         ++ Decl.make(value, ["item", "items"])
+         ++ " left",
+       )}
+    </strong>
   </span>;
 };
