@@ -1,7 +1,8 @@
 open Types;
+open Belt;
 
 type state = {
-  items: list(item),
+  todos: list(item),
   filter,
 };
 
@@ -14,54 +15,54 @@ type action =
   | ChangeFilter(filter)
   | RemoveCompleted;
 
-let defaultState = {items: [], filter: All};
+let defaultState = {todos: [], filter: All};
 
 let reducer = (state, action: action) => {
   switch (action) {
   | AddTodo(title) => {
       ...state,
-      items: Belt.List.add(state.items, Todo.create(title)),
+      todos: List.add(state.todos, Todo.create(title)),
     }
   | RenameTodo(todoId, title) => {
       ...state,
-      items: state.items->Todo.rename(todoId, title),
+      todos: state.todos->Todo.rename(todoId, title),
     }
   | RemoveTodo(todoId) => {
       ...state,
-      items: state.items->Todo.remove(todoId),
+      todos: state.todos->Todo.remove(todoId),
     }
   | ToggleTodoCompleted(todoId) => {
       ...state,
-      items: state.items->Todo.toggleCompleted(todoId),
+      todos: state.todos->Todo.toggleCompleted(todoId),
     }
   | SetTodosCompleted(isCompleted) => {
       ...state,
-      items: state.items->Todo.setCompleted(isCompleted),
+      todos: state.todos->Todo.setCompleted(isCompleted),
     }
   | ChangeFilter(filter) => {...state, filter}
-  | RemoveCompleted => {...state, items: state.items->Todo.keepActive}
+  | RemoveCompleted => {...state, todos: state.todos->Todo.keepActive}
   };
 };
 
 [@react.component]
 let make = () => {
-  let ({items, filter}, dispatch) = React.useReducer(reducer, defaultState);
-  let filteredItems = Todo.filterItems(items, filter);
-  let itemsLen = Belt.List.length(filteredItems);
+  let ({todos, filter}, dispatch) = React.useReducer(reducer, defaultState);
+  let filteredTodos = todos->Todo.keepByFilter(filter);
+  let todosLen = filteredTodos->List.length;
 
   <div className="todoapp">
     <header className="header">
       <h1> {React.string("todos")} </h1>
       <NewTodoInput onSubmit={title => dispatch(AddTodo(title))} />
     </header>
-    {itemsLen > 0 || filter !== All
+    {todosLen > 0 || filter !== All
        ? <>
            <section className="main">
              <TodosToggler
                onChange={checked => dispatch(SetTodosCompleted(checked))}
              />
              <TodosList
-               items=filteredItems
+               items=filteredTodos
                onItemToggleCompleted={itemId =>
                  dispatch(ToggleTodoCompleted(itemId))
                }
@@ -72,12 +73,12 @@ let make = () => {
              />
            </section>
            <footer className="footer">
-             <TodosCount value={Todo.countActive(items)} />
+             <TodosCount value={todos->Todo.countActive} />
              <Filter
                value=filter
                onChange={filter => dispatch(ChangeFilter(filter))}
              />
-             {Todo.someCompleted(items)
+             {todos->Todo.someCompleted
                 ? <button
                     className="clear-completed"
                     onClick={_evt => dispatch(RemoveCompleted)}>

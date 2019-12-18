@@ -12,46 +12,46 @@ var NewTodoInput$ReasonReactExamples = require("../NewTodoInput/NewTodoInput.bs.
 var TodosToggler$ReasonReactExamples = require("../TodosToggler/TodosToggler.bs.js");
 
 var defaultState = /* record */[
-  /* items : [] */0,
+  /* todos : [] */0,
   /* filter : All */0
 ];
 
 function reducer(state, action) {
   if (typeof action === "number") {
     return /* record */[
-            /* items */Todo$ReasonReactExamples.keepActive(state[/* items */0]),
+            /* todos */Todo$ReasonReactExamples.keepActive(state[/* todos */0]),
             /* filter */state[/* filter */1]
           ];
   } else {
     switch (action.tag | 0) {
       case /* AddTodo */0 :
           return /* record */[
-                  /* items */Belt_List.add(state[/* items */0], Todo$ReasonReactExamples.create(action[0])),
+                  /* todos */Belt_List.add(state[/* todos */0], Todo$ReasonReactExamples.create(action[0])),
                   /* filter */state[/* filter */1]
                 ];
       case /* RenameTodo */1 :
           return /* record */[
-                  /* items */Todo$ReasonReactExamples.rename(state[/* items */0], action[0], action[1]),
+                  /* todos */Todo$ReasonReactExamples.rename(state[/* todos */0], action[0], action[1]),
                   /* filter */state[/* filter */1]
                 ];
       case /* RemoveTodo */2 :
           return /* record */[
-                  /* items */Todo$ReasonReactExamples.remove(state[/* items */0], action[0]),
+                  /* todos */Todo$ReasonReactExamples.remove(state[/* todos */0], action[0]),
                   /* filter */state[/* filter */1]
                 ];
       case /* ToggleTodoCompleted */3 :
           return /* record */[
-                  /* items */Todo$ReasonReactExamples.toggleCompleted(state[/* items */0], action[0]),
+                  /* todos */Todo$ReasonReactExamples.toggleCompleted(state[/* todos */0], action[0]),
                   /* filter */state[/* filter */1]
                 ];
       case /* SetTodosCompleted */4 :
           return /* record */[
-                  /* items */Todo$ReasonReactExamples.setCompleted(state[/* items */0], action[0]),
+                  /* todos */Todo$ReasonReactExamples.setCompleted(state[/* todos */0], action[0]),
                   /* filter */state[/* filter */1]
                 ];
       case /* ChangeFilter */5 :
           return /* record */[
-                  /* items */state[/* items */0],
+                  /* todos */state[/* todos */0],
                   /* filter */action[0]
                 ];
       
@@ -64,13 +64,13 @@ function App(Props) {
   var dispatch = match[1];
   var match$1 = match[0];
   var filter = match$1[/* filter */1];
-  var items = match$1[/* items */0];
-  var filteredItems = Todo$ReasonReactExamples.filterItems(items, filter);
-  var itemsLen = Belt_List.length(filteredItems);
-  var match$2 = itemsLen > 0 || filter !== /* All */0;
+  var todos = match$1[/* todos */0];
+  var filteredTodos = Todo$ReasonReactExamples.keepByFilter(todos, filter);
+  var todosLen = Belt_List.length(filteredTodos);
+  var match$2 = todosLen > 0 || filter !== /* All */0;
   var tmp;
   if (match$2) {
-    var match$3 = Todo$ReasonReactExamples.someCompleted(items);
+    var match$3 = Todo$ReasonReactExamples.someCompleted(todos);
     tmp = React.createElement(React.Fragment, undefined, React.createElement("section", {
               className: "main"
             }, React.createElement(TodosToggler$ReasonReactExamples.make, {
@@ -78,7 +78,7 @@ function App(Props) {
                       return Curry._1(dispatch, /* SetTodosCompleted */Block.__(4, [checked]));
                     })
                 }), React.createElement(TodosList$ReasonReactExamples.make, {
-                  items: filteredItems,
+                  items: filteredTodos,
                   onItemToggleCompleted: (function (itemId) {
                       return Curry._1(dispatch, /* ToggleTodoCompleted */Block.__(3, [itemId]));
                     }),
@@ -94,7 +94,7 @@ function App(Props) {
                 })), React.createElement("footer", {
               className: "footer"
             }, React.createElement(TodosCount$ReasonReactExamples.make, {
-                  value: Todo$ReasonReactExamples.countActive(items)
+                  value: Todo$ReasonReactExamples.countActive(todos)
                 }), React.createElement(Filter$ReasonReactExamples.make, {
                   value: filter,
                   onChange: (function (filter) {

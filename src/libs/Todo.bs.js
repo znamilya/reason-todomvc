@@ -30,7 +30,7 @@ function countCompleted(items) {
                   })));
 }
 
-function filterItems(items, filter) {
+function keepByFilter(items, filter) {
   switch (filter) {
     case /* All */0 :
         return items;
@@ -103,7 +103,7 @@ exports.keepCompleted = keepCompleted;
 exports.keepActive = keepActive;
 exports.countActive = countActive;
 exports.countCompleted = countCompleted;
-exports.filterItems = filterItems;
+exports.keepByFilter = keepByFilter;
 exports.setCompleted = setCompleted;
 exports.toggleCompleted = toggleCompleted;
 exports.create = create;

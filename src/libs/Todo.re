@@ -19,7 +19,7 @@ let countCompleted = (items: list(item)) => {
   items->keepCompleted->List.length;
 };
 
-let filterItems = (items, filter) => {
+let keepByFilter = (items, filter) => {
   switch (filter) {
   | All => items
   | Active => items->keepActive
