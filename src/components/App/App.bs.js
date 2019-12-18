@@ -11,9 +11,26 @@ var TodosCount$ReasonReactExamples = require("../TodosCount/TodosCount.bs.js");
 var NewTodoInput$ReasonReactExamples = require("../NewTodoInput/NewTodoInput.bs.js");
 var TodosToggler$ReasonReactExamples = require("../TodosToggler/TodosToggler.bs.js");
 
+var urlHash = (
+  document.location.hash.slice(2)
+);
+
+var tmp;
+
+switch (urlHash) {
+  case "active" :
+      tmp = /* Active */1;
+      break;
+  case "completed" :
+      tmp = /* Completed */2;
+      break;
+  default:
+    tmp = /* All */0;
+}
+
 var defaultState = /* record */[
   /* todos : [] */0,
-  /* filter : All */0
+  /* filter */tmp
 ];
 
 function reducer(state, action) {
@@ -122,7 +139,8 @@ function App(Props) {
 
 var make = App;
 
+exports.urlHash = urlHash;
 exports.defaultState = defaultState;
 exports.reducer = reducer;
 exports.make = make;
-/* react Not a pure module */
+/* urlHash Not a pure module */

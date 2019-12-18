@@ -15,7 +15,18 @@ type action =
   | ChangeFilter(filter)
   | RemoveCompleted;
 
-let defaultState = {todos: [], filter: All};
+let urlHash = [%bs.raw {|
+  document.location.hash.slice(2)
+|}];
+let defaultState = {
+  todos: [],
+  filter:
+    switch (urlHash) {
+    | "active" => Active
+    | "completed" => Completed
+    | _ => All
+    },
+};
 
 let reducer = (state, action: action) => {
   switch (action) {
