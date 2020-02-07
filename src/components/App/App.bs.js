@@ -130,7 +130,9 @@ function App(Props) {
               className: "todoapp"
             }, React.createElement("header", {
                   className: "header"
-                }, React.createElement("h1", undefined, "todos"), React.createElement(NewTodoInput$ReasonReactExamples.make, {
+                }, React.createElement("h1", {
+                      className: "title"
+                    }, "todos"), React.createElement(NewTodoInput$ReasonReactExamples.make, {
                       onSubmit: (function (title) {
                           return Curry._1(dispatch, /* AddTodo */Block.__(0, [title]));
                         })

@@ -63,7 +63,7 @@ let make = () => {
 
   <div className="todoapp">
     <header className="header">
-      <h1> {React.string("todos")} </h1>
+      <h1 className="title"> {React.string("todos")} </h1>
       <NewTodoInput onSubmit={title => dispatch(AddTodo(title))} />
     </header>
     {todosLen > 0 || filter !== All
