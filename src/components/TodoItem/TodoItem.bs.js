@@ -20,9 +20,10 @@ function TodoItem(Props) {
         }));
   var setTmpValue = match$1[1];
   var tmpTitle = match$1[0];
-  var className = isEditMode ? "editing" : (
+  var modifiers = isEditMode ? "editing" : (
       isCompleted ? "completed" : ""
     );
+  var className = "todo-item " + modifiers;
   var handleDoubleClick = function (param) {
     return Curry._1(setEditMode, (function (param) {
                   return true;

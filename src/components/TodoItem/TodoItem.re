@@ -3,7 +3,8 @@ let make =
     (~id, ~title, ~isCompleted, ~onToggleCompleted, ~onRename, ~onRemove) => {
   let (isEditMode, setEditMode) = React.useState(() => false);
   let (tmpTitle, setTmpValue) = React.useState(() => title);
-  let className = isEditMode ? "editing" : isCompleted ? "completed" : "";
+  let modifiers = isEditMode ? "editing" : isCompleted ? "completed" : "";
+  let className = "todo-item " ++ modifiers;
 
   // Handlers
   let handleDoubleClick = _ => setEditMode(_ => true);
